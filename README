@@ -1,0 +1,20 @@
+# Terraform AWS 3-Tier Application
+
+## Overview
+This project demonstrates a fully automated deployment of a 3-tier architecture on AWS using Terraform. It includes:
+- **Networking**: VPC, subnets, NAT Gateway, and route tables.
+- **Frontend**: EC2 instances with an ALB in the public subnet.
+- **Backend**: Application servers in private subnets.
+- **Data Layer**: RDS (MySQL) for persistent data storage.
+
+## Tools Used
+- Terraform
+- AWS (VPC, EC2, RDS, ALB)
+- GitHub Actions (for CI/CD)
+
+## Architecture Diagram
+![Architecture](diagrams/architecture-diagram.png)
+
+## How to Use
+1. Clone the repository: `git clone https://github.com/username/terraform-aws-3tier-app.git`
+2. Follow the setup instructions in the README.
