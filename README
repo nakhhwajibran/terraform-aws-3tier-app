@@ -1,20 +1,138 @@
 # Terraform AWS 3-Tier Application
 
-## Overview
-This project demonstrates a fully automated deployment of a 3-tier architecture on AWS using Terraform. It includes:
-- **Networking**: VPC, subnets, NAT Gateway, and route tables.
-- **Frontend**: EC2 instances with an ALB in the public subnet.
-- **Backend**: Application servers in private subnets.
-- **Data Layer**: RDS (MySQL) for persistent data storage.
+## Project Objective
+The goal of this project is to gain a comprehensive understanding of **Terraform** by deploying a scalable and highly available 3-tier application architecture on **AWS**. This project demonstrates the use of Terraform to provision and manage infrastructure in the cloud while adhering to best practices.
 
-## Tools Used
-- Terraform
-- AWS (VPC, EC2, RDS, ALB)
-- GitHub Actions (for CI/CD)
+---
 
-## Architecture Diagram
-![Architecture](diagrams/architecture-diagram.png)
+## Tools and Technologies
+- **Terraform**: Infrastructure as Code (IaC) tool for provisioning and managing cloud resources.
+- **AWS**: Cloud platform used for hosting the application and related resources.
 
-## How to Use
-1. Clone the repository: `git clone https://github.com/username/terraform-aws-3tier-app.git`
-2. Follow the setup instructions in the README.
+---
+
+## Architecture Overview
+This project implements a classic 3-tier architecture with the following components:
+
+1. **Public Subnet**:
+   - Hosts the Elastic Load Balancer (ELB) for distributing incoming traffic across the web servers.
+   - Internet Gateway (IGW) provides access to the internet.
+
+2. **Private Subnet**:
+   - **Application Layer**: Contains EC2 instances in an Auto Scaling Group to handle application workloads with high availability.
+   - **Database Layer**: Contains an RDS instance for data storage. The database is secured within the private subnet.
+
+3. **Security**:
+   - **Security Groups**: Enforce strict inbound and outbound traffic rules.
+   - **Network ACLs**: Provide an additional layer of network security.
+
+---
+
+## Key Terraform Modules and Resources
+- **VPC Module**:
+  - Creates a VPC with public and private subnets, route tables, and an internet gateway.
+  
+- **EC2 Module**:
+  - Provisions application servers in the private subnet with user data for application deployment.
+  
+- **ELB Resource**:
+  - Deploys an Elastic Load Balancer to distribute traffic across EC2 instances.
+  
+- **RDS Module**:
+  - Configures a managed database instance in the private subnet.
+  
+- **IAM Roles and Policies**:
+  - Enables secure communication between instances and access to S3 or other AWS services.
+  
+- **Security Groups**:
+  - Implements firewall rules to control traffic to and from resources.
+
+---
+
+## Steps to Deploy the Project
+
+### 1. Prerequisites
+- Install **Terraform**: [Terraform Installation Guide](https://www.terraform.io/downloads.html)
+- Install **AWS CLI**: [AWS CLI Installation Guide](https://aws.amazon.com/cli/)
+- Configure AWS credentials using `aws configure`.
+
+### 2. Clone the Repository
+```bash
+git clone https://github.com/nakhhwajibran/terraform-aws-3tier-app
+cd terraform-aws-3tier-app
+```
+
+### 3. Configure Variables
+- Edit the `variables.tf` file to set appropriate values for your infrastructure (e.g., VPC CIDR, instance types, region).
+- Sensitive variables such as `AWS_ACCESS_KEY` can be stored securely using Terraform variables or environment variables.
+
+### 4. Initialize Terraform
+Initialize the working directory to download required providers and modules:
+```bash
+terraform init
+```
+
+### 5. Plan the Infrastructure
+Generate and review the execution plan:
+```bash
+terraform plan
+```
+
+### 6. Apply the Configuration
+Provision the infrastructure:
+```bash
+terraform apply
+```
+Type `yes` when prompted to confirm.
+
+### 7. Verify Deployment
+- Access the application through the ELB's public DNS.
+- Use the AWS Management Console to verify the resources (EC2 instances, RDS, subnets, etc.) are deployed as expected.
+
+### 8. Destroy the Infrastructure
+To clean up and remove all provisioned resources:
+```bash
+terraform destroy
+```
+
+---
+
+## File Structure
+```plaintext
+├── main.tf             # Main Terraform configuration file
+├── variables.tf        # Variables used in the configuration
+├── outputs.tf          # Outputs to display resource details
+├── README.md           # Project documentation
+├── terraform.tfstate   # Terraform state file (generated after `apply`)
+├── terraform.tfvars    # Sensitive variable values (optional)
+└── modules/            # Contains reusable modules for VPC, EC2, RDS, etc.
+```
+
+---
+
+## Features
+- Automated provisioning of a 3-tier architecture on AWS.
+- Scalable application layer using Auto Scaling Groups.
+- Secure database deployment in private subnets with restricted access.
+- Load balancing for high availability and fault tolerance.
+- Reusable and modular Terraform code for future scalability.
+
+---
+
+## Future Enhancements
+- Add monitoring and alerting using CloudWatch.
+- Integrate CI/CD pipelines for automated deployments.
+- Use Terraform Cloud for remote state management and collaboration.
+
+---
+
+## References
+- [Terraform Documentation](https://www.terraform.io/docs)
+- [AWS Documentation](https://aws.amazon.com/documentation)
+
+---
+
+**Author:**  
+Jibran Siraj Nakhwa (mailto:nakhwa.jibrann@gmail.com)  
+
+Feel free to contribute by submitting a pull request or opening an issue! 🚀
